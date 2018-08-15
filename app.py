@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 from flask import Flask
 from flask import request, jsonify
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 import os
+
 
 
 app = Flask(__name__)
@@ -45,6 +47,15 @@ def hello_world():
     return 'Hello World! I am running'
 
 
+
+@app.route('/request', methods=['GET','POST'])
+def request():
+    content = request.get_json()
+    mess = content['title']
+    return jsonify(content)
+
+
+
 @app.route('/recomend', methods=['POST'])
 def get_category():
     content = request.get_json()
@@ -60,4 +71,5 @@ def get_category():
 
 
 if __name__ == '__main__':
+    app.debug=True
     app.run(host='0.0.0.0', port=port)
